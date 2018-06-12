@@ -5,7 +5,6 @@
  */
 package api.plongee.cours.service;
 
-import api.plongee.cours.service.GestionCours;
 import api.plongee.cours.domain.Cours;
 import api.plongee.cours.domain.Creneau;
 import api.plongee.cours.domain.GeoPoint2D;
@@ -36,7 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- *
+ * Le service du cours
  * @author Marine
  */
 @Service 
@@ -56,12 +55,13 @@ public class GestionCoursImpl implements GestionCours{
     PiscineRepo piscineRepo;
     
     /**
-     *
+     * Permet de renvoyer un nouveau cours
      * @param nomCours
      * @param niveauCible
      * @param dateDebut
      * @param duree
      * @param enseignant
+     * @param idPiscine
      * @return
      */
     @Override
@@ -73,16 +73,24 @@ public class GestionCoursImpl implements GestionCours{
         Cours insert = coursRepo.save(c);
         return insert;
     }
-
+/**
+ * Permet de faire en sorte qu'un membre soit inscrit à un cours. Il faut savoir que tous les cours sont limités à 4 personnes. 
+ * @param idCours
+ * @param idMembre
+ * @return
+ * @throws MembreIntrouvableException
+ * @throws CoursIntrouvableException
+ * @throws CoursTropRemplisException 
+ */
     @Override
     public Cours participerCours(String idCours, Integer idMembre) throws MembreIntrouvableException,CoursIntrouvableException, CoursTropRemplisException {
         Membre m = null;
-               try {
-
+        //communication avec la gestion membre       
+        try {
+                
 		URL url = new URL("http://localhost:8080/api/membre/afficher/"+idMembre);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
-		//conn.setRequestProperty("Accept", "application/json");
 
 		if (conn.getResponseCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
@@ -117,17 +125,23 @@ public class GestionCoursImpl implements GestionCours{
        participantRepo.save(p);
        return c;
     }
-
+/**
+ * afficher un cours à partir de l'id du membre
+ * @param idMembre
+ * @return
+ * @throws MembreIntrouvableException
+ * @throws CoursIntrouvableException 
+ */
     @Override
     public List<Cours> afficherCours(Integer idMembre) throws MembreIntrouvableException, CoursIntrouvableException {
       Membre m = null;
       String type ="";
+      //communication avec la gestion membre  
                try {
 
 		URL url = new URL("http://localhost:8080/api/membre/afficher/"+idMembre);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
-		//conn.setRequestProperty("Accept", "application/json");
 
 		if (conn.getResponseCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
@@ -137,15 +151,12 @@ public class GestionCoursImpl implements GestionCours{
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 			(conn.getInputStream())));
 
-		
-		
 		JSONObject  json =  new JSONObject (br.readLine());
                  m = new Membre(json.getInt("idMembre"), json.getString("nom"), json.getString("prenom"));
                  
                   url = new URL("http://localhost:8080/api/membre/type/"+idMembre);
 		 conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
-		//conn.setRequestProperty("Accept", "application/json");
 
 		if (conn.getResponseCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
@@ -184,14 +195,22 @@ public class GestionCoursImpl implements GestionCours{
         }
         return c;
     }
-
+/**
+ * supprimer un cours à partir d'un id 
+ * @param idCours
+ * @throws CoursIntrouvableException 
+ */
     @Override
     public void supprimerCours(String idCours) throws CoursIntrouvableException {
         Cours c = this.coursRepo.findOne(idCours);
         if (c==null) throw new CoursIntrouvableException();
         else this.coursRepo.delete(c);
     }
-
+/**
+ * Permet de récupérer les piscines sur l'API de Toulouse, attention, il faut le lancer qu'une fois, lors du lancement de l'application.
+ * Il est appelé dans le data filler
+ * @return une liste de piscine
+ */
     @Override
     public List<Piscine> recupererPiscines() {
         List<Piscine> l = new ArrayList<Piscine>();        
@@ -242,12 +261,18 @@ public class GestionCoursImpl implements GestionCours{
 	  }
         return l;
     }
-
+/**
+ * affiche la liste des piscines
+ * @return une liste de piscine
+ */
     @Override
     public List<Piscine> afficherPiscines() {
         return piscineRepo.findAll();
     }
-
+/**
+ * Envois tous les cours qui ont été positionnés
+ * @return un nombre de cours positionnés
+ */
     @Override
     public long nombreDeCoursPositionnes() {
         return coursRepo.count();

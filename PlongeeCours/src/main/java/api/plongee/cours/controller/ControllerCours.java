@@ -39,14 +39,18 @@ public class ControllerCours {
     
     
     /*
-    Requête de test :
+    Pour creer un cours
+    
+    Requête de test, sachant qu'il faut mettre dans un piscine, un id d'une piscine crée :
     
     {
     nomCours:"vidage de masque",
     niveauCible :"1",
     dateDebut : "26/05/18",
     duree : "40",
-    enseignant:"4"
+    enseignant:"4",
+    piscine:"..."
+    
     }
     
     */
@@ -66,27 +70,48 @@ public class ControllerCours {
         Date d = sdf.parse(dateDebut);
         return gestionCours.creerCours(nomCours, niveauCible, d, duree, enseignant,piscine);
     }
-    
+    /**
+     * Permet de participer à un cours
+     * @param idCours
+     * @param idMembre
+     * @return
+     * @throws MembreIntrouvableException
+     * @throws CoursIntrouvableException
+     * @throws CoursTropRemplisException 
+     */
     @PutMapping("/participation/{idMembre}")
     @ResponseBody
     public Cours participerCours(@RequestBody String idCours,@PathVariable("idMembre") Integer idMembre) throws MembreIntrouvableException, CoursIntrouvableException, CoursTropRemplisException{
         return gestionCours.participerCours( idCours, idMembre);
     }
            
-     
+    /**
+     * Permet d'afficher un membre
+     * @param idMembre
+     * @return
+     * @throws MembreIntrouvableException
+     * @throws CoursIntrouvableException 
+     */ 
     @GetMapping("/afficher/{idMembre}")
     @ResponseBody
     public List<Cours> afficherCours(@PathVariable("idMembre") Integer idMembre) throws MembreIntrouvableException,CoursIntrouvableException{
         return gestionCours.afficherCours(idMembre);
     }
-    
+    /**
+     * Permet de supprimer un membre à partir de son id
+     * @param idCours
+     * @throws CoursIntrouvableException 
+     */
         @DeleteMapping("/supprimer/{idCours}")
     @ResponseBody
     public void supprimer(@PathVariable("idMembre") String idCours) throws CoursIntrouvableException{
          gestionCours.supprimerCours(idCours);
     }
-    
-            @GetMapping("/afficherPiscines")
+    /**
+     * Permet d'afficher les différentes piscines de Toulouse sauvegardées en BD
+     * @return une liste de piscine
+     */
+     @GetMapping("/afficherPiscines")
     @ResponseBody
     public List<Piscine> afficherPiscines()  {
          return gestionCours.afficherPiscines();
