@@ -102,9 +102,9 @@ public class ControllerCours {
      * @param idCours
      * @throws CoursIntrouvableException 
      */
-        @DeleteMapping("/supprimer/{idCours}")
+    @DeleteMapping("/supprimer")
     @ResponseBody
-    public void supprimer(@PathVariable("idMembre") String idCours) throws CoursIntrouvableException{
+    public void supprimer(@RequestBody String idCours) throws CoursIntrouvableException{
          gestionCours.supprimerCours(idCours);
     }
     /**

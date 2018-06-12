@@ -213,7 +213,8 @@ public class GestionCoursImpl implements GestionCours{
  */
     @Override
     public List<Piscine> recupererPiscines() {
-        List<Piscine> l = new ArrayList<Piscine>();        
+        List<Piscine> l = new ArrayList<Piscine>();    
+        //Récupération des piscines sur l'API de Toulouse
         try {
 
 		URL url = new URL("https://data.toulouse-metropole.fr/api/records/1.0/search/?dataset=piscines");
@@ -237,6 +238,7 @@ public class GestionCoursImpl implements GestionCours{
                  JSONObject geometrie = null;
                  JSONObject fields = null;
                 JSONArray records = (JSONArray) json.get("records");
+                //Parcours toutes les piscines envoyées
                 for (int i = 0 ; i <records.length();i++){
                     json = (JSONObject) records.get(i);
                    
