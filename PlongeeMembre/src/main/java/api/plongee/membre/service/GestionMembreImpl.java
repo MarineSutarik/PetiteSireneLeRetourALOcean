@@ -51,8 +51,26 @@ public class GestionMembreImpl  implements GestionMembre{
 @Autowired
     private SecretaireRepo secretaire;
  @Autowired
-    private PresidentRepo president;   
+    private PresidentRepo president; 
+ /**
+  * 
+  * @param nom
+  * @param prenom
+  * @param adresseMail
+  * @param login
+  * @param password
+  * @param dateDebutCertificat
+  * @param aPaye
+  * @param niveauExpertise
+  * @param numLicence
+  * @param pays
+  * @param ville
+  * @param type
+  * creer un membre 
+  * @return le membre créé avec un id généré
+  */
     @Override
+ 
     public Membre creerMembre(String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Date aPaye, Integer niveauExpertise, String numLicence, String pays, String ville, TypeMembre type) {
       Adresse a = new Adresse( pays, ville);
         a = adresse.save(a);
@@ -85,7 +103,13 @@ public class GestionMembreImpl  implements GestionMembre{
         
         return m;
     }
-
+/**
+ * modifie un membre
+ * @param idMembre
+ * @param m
+ * @return un membre
+ * @throws MembreIntrouvableException 
+ */
     @Override
     public Membre updateMembre(Integer idMembre, Membre m)  throws MembreIntrouvableException {
         System.out.println("id = "+idMembre);
@@ -104,14 +128,25 @@ public class GestionMembreImpl  implements GestionMembre{
         membreActuel.setaPaye(m.getAPaye()); 
         return this.membreRepo.save(membreActuel);
     }
-
+/**
+ * 
+ * supprime un membre
+ * @param idMembre  
+ * @throws MembreIntrouvableException 
+ */
     @Override
     public void deleteMembre(Integer idMembre) throws MembreIntrouvableException {
         Membre membreActuel = this.membreRepo.getOne(idMembre);
         if (membreActuel==null) throw new MembreIntrouvableException();
         else this.membreRepo.delete(membreActuel);
     }
-
+/**
+ * Permet à un membre de se connecter
+ * @param login
+ * @param password
+ * @return un membre
+ * @throws MembreIntrouvableException 
+ */
     @Override
     public Membre seconnecter(String login, String password) throws MembreIntrouvableException {
         Membre m =  membreRepo.findMembreByLogin(login);
@@ -120,7 +155,13 @@ public class GestionMembreImpl  implements GestionMembre{
         
         return m;
     }
-
+/**
+ * paye la cotisation d'un membre, plus précisement créer un objet Paiement et actualise la date du dernier paiement
+ * @param IBAN
+ * @param somme
+ * @param idMembre
+ * @throws MembreIntrouvableException 
+ */
     @Override
     public void payerCotisation(String IBAN, float somme,Integer idMembre) throws MembreIntrouvableException {
          Membre m = this.membreRepo.getOne(idMembre);
@@ -131,7 +172,10 @@ public class GestionMembreImpl  implements GestionMembre{
         m.setaPaye(Calendar.getInstance().getTime());
         membreRepo.save(m);
     }
-
+/**
+ * afficher tous les membres, ainsi que la date de leur cotisations
+ * @return une liste de membre
+ */
     @Override
     public List<Membre> consulterCotisation() {
         ArrayList<Membre> r = new   ArrayList<Membre> ();
@@ -178,7 +222,11 @@ public class GestionMembreImpl  implements GestionMembre{
     return h;
         
     }
-    
+    /**
+     * Met à jour la date à laquel le membre a donné un certificat
+     * @param idMembre
+     * @throws MembreIntrouvableException 
+     */
     @Override
     public void donnerCertificat(Integer idMembre) throws MembreIntrouvableException{
         Membre m = membreRepo.getOne(idMembre);
@@ -186,6 +234,12 @@ public class GestionMembreImpl  implements GestionMembre{
         membreRepo.save(m);
     }
 
+    /***
+     * affihcher un membre à partir de son idMembre
+     * @param idMembre
+     * @return
+     * @throws MembreIntrouvableException 
+     */
     @Override
     public Membre afficherMembre(Integer idMembre ) throws MembreIntrouvableException{
         Membre m =  this.membreRepo.getOne(idMembre);
@@ -193,6 +247,12 @@ public class GestionMembreImpl  implements GestionMembre{
         return m;
     }
 
+    /**
+     * retourne le type d'un idMembre 
+     * @param idMembre
+     * @return
+     * @throws MembreIntrouvableException 
+     */
     @Override
     public String getType(Integer idMembre) throws MembreIntrouvableException {
         Membre m =  this.membreRepo.findOne(idMembre);

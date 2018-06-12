@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  *
  * @author Marine
+ * Les différents contrôlleurs de la partie membre
  */
 @RestController
 @RequestMapping("/api/membre")
@@ -41,8 +42,12 @@ public class ControllerMembre {
     private GestionMembre gestionMembre;
     
     /**
-     *
-     * {nom:"Marine",
+     * 
+     * Créer un nouveau membre et génére son id
+     * 
+     * Une requête de test :
+     
+    {nom:"Marine",
     prenom:"SUTARIK",
     adresseMail:"marine@toto.fr",
     login:"toto",
@@ -53,8 +58,7 @@ public class ControllerMembre {
     pays:"France",
     ville:"Saint-Lys",
     type:"Membre" }
-
-* 
+ 
      * @param js
      * @return
      * @throws api.plongee.membre.exception.TypeMembreInvalideException
@@ -62,21 +66,7 @@ public class ControllerMembre {
      */
     @PostMapping("/creation")
     @ResponseBody
-    public Membre creerMembre(@RequestBody String js
-           /* Ce code ne marche pas, BodyRequest ne prend que le premier paramètres en fait
-            @RequestBody String nom,
-             @RequestBody String prenom,
-             @RequestBody String adresseMail,
-            @RequestBody String login,
-             @RequestBody String password,
-             @RequestBody String dateDebutCertificat,
-             @RequestBody Integer niveauExpertise,
-             @RequestBody String numLicence,
-             @RequestBody String pays,
-            @RequestBody String ville,
-             @RequestBody String type
-    */
-    ) throws TypeMembreInvalideException, ParseException{
+    public Membre creerMembre(@RequestBody String js ) throws TypeMembreInvalideException, ParseException{
         JSONObject jsonObj = new JSONObject(js);
                      String nom = jsonObj.getString("nom");
               String prenom= jsonObj.getString("prenom");
@@ -112,7 +102,11 @@ public class ControllerMembre {
         Date daPaye = sdf.parse(aPaye);
         return gestionMembre.creerMembre( nom, prenom, adresseMail, login, password, d,daPaye, niveauExpertise, numLicence, pays, ville, t);
     }
-    /* Pour tester la requête :
+    /*
+    Modifie un membre et l'enregistre
+    
+    Pour tester la requête :
+    
          {nom:"Toto",
     prenom:"SUTARIK",
     adresseMail:"marine@toto.fr",
@@ -181,14 +175,18 @@ public class ControllerMembre {
         return this.gestionMembre.updateMembre(id, m);
         
     }
-    
+    /**
+     * supprime un id
+     * @param id
+     * @throws MembreIntrouvableException 
+     */
       @DeleteMapping("/suppression/{id}")
     public void supprimer( @PathVariable("id") Integer id) throws MembreIntrouvableException{
         this.gestionMembre.deleteMembre(id);
     }
 
     /**
-     *
+     * Permet de tester le mot de passe et le login pour qu'un membre se connecte. Renvois l'objet du membre.
      * @param param
      * @return
      * @throws MembreIntrouvableException
@@ -203,7 +201,12 @@ public class ControllerMembre {
         return this.gestionMembre.seconnecter(login, password);
     }
     
-    
+    /**
+     * Permet de valider le paiement d'un membre
+     * @param id
+     * @param param
+     * @throws MembreIntrouvableException 
+     */
     @PutMapping("/paiement/{id}")
     @ResponseBody
     public void payer( @PathVariable("id") Integer id, @RequestBody String param) throws MembreIntrouvableException{
@@ -213,31 +216,52 @@ public class ControllerMembre {
          float somme= Float.parseFloat(jsonObj.getString("somme"));
          this.gestionMembre.payerCotisation(IBAN, somme,id);
     }
-    
+    /**
+     * Permet de returner une liste de membre, la partie front s'occuper d'afficher les informations utiles
+     * @return
+     * @throws MembreIntrouvableException 
+     */
     @GetMapping("/consultation")
     @ResponseBody
     public List consulter() throws MembreIntrouvableException{         
         return this.gestionMembre.consulterCotisation();
     }
-    
+    /**
+     * affiche les statistisques
+     * @return 
+     */
     @GetMapping("/statistiques")
     @ResponseBody
     public Map<String,String> voirStatistiques() {         
         return this.gestionMembre.consulterStatistiques();
     }
-    
+    /**
+     * permet de donner un certificat pour un membre
+     * @param id
+     * @throws MembreIntrouvableException 
+     */
     @PutMapping("/certificat/{id}")
     @ResponseBody
     public void donnerCertificat(@PathVariable("id") Integer id) throws MembreIntrouvableException {         
         this.gestionMembre.donnerCertificat(id);
     }
-    
+    /**
+     * affiche un membre pour son id
+     * @param id
+     * @return
+     * @throws MembreIntrouvableException 
+     */
     @GetMapping("/afficher/{id}")
     @ResponseBody
     public Membre afficherMembre(@PathVariable("id") Integer id) throws MembreIntrouvableException {         
         return this.gestionMembre.afficherMembre(id);
     }
-    
+    /**
+     * return le type d'un membre à partir de son id ( si c'est un enseignant un président ou un simple membre
+     * @param id
+     * @return
+     * @throws MembreIntrouvableException 
+     */
     @GetMapping("/type/{id}")
     @ResponseBody
     public String getType(@PathVariable("id") Integer id) throws MembreIntrouvableException {         
