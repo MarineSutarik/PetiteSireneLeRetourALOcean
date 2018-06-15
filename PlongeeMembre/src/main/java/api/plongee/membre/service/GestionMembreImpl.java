@@ -189,34 +189,34 @@ public class GestionMembreImpl  implements GestionMembre{
     public Map<String, String> consulterStatistiques() {
         HashMap<String,String> h = new HashMap<String,String>();
     
-   //nombre de membre
-    String k = "nombre de membre";
-    String v = membreRepo.count()+" membres";
+   //nombre de membres
+    String k = "Nombre de membre(s)";
+    String v = membreRepo.count()+" membre(s)";
     h.put(k, v);
     
-    //nombre d'enseignant
-     k = "nombre d'enseignant";
-     v = enseignant.count()+" enseignants";
+    //nombre d'enseignants
+     k = "Nombre d'enseignants";
+     v = enseignant.count()+" enseignant(s)";
     h.put(k, v);
     
      //nombre de cours positionnés
-     k = "nombre  de cours positionnés";
+     k = "Nombre de cours positionnés";
      v =+ // gestionCours.nombreDeCoursPositionnes()
              0+
-             " cours";
+             " cour(s)";
     h.put(k, v);   
     
-    //nombre de cotisation prévue
-     k = "nombre  de cotisation prévue";
+    //nombre de cotisations prévues
+     k = "Nombre  de cotisations prévues";
     Calendar cal =  Calendar.getInstance();
     cal.set( Calendar.getInstance().get(Calendar.YEAR), 01, 01, 0, 1);
-     v =membreRepo.countByAPayeLessThan(cal.getTime())+" cotisations";
+     v =membreRepo.countByAPayeLessThan(cal.getTime())+" cotisation(s)";
     h.put(k, v);
     
     
-    //nombre de cotisation réglées 
-     k = "nombre de cotisation réglées";
-     v =membreRepo.countByAPayeGreaterThan(cal.getTime())+" cotisations";
+    //nombre de cotisations réglées 
+     k = "Nombre de cotisations réglées";
+     v =membreRepo.countByAPayeGreaterThan(cal.getTime())+" cotisation(s)";
     h.put(k, v);
     
     return h;
