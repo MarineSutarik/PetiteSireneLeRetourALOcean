@@ -118,14 +118,12 @@ public class GestionMembreImpl  implements GestionMembre{
         
         membreActuel.setAdresse(m.getAdresse());
         membreActuel.setAdresseMail(m.getAdresseMail());
-        membreActuel.setDateDebutCertificat(m.getDateDebutCertificat());
         membreActuel.setLogin(m.getLogin());
         membreActuel.setNiveauExpertise(m.getNiveauExpertise());
         membreActuel.setNom(m.getNom());
         membreActuel.setNumLicence(m.getNumLicence());
         membreActuel.setPassword(m.getPassword());
         membreActuel.setPrenom(m.getPrenom());
-        membreActuel.setaPaye(m.getAPaye()); 
         return this.membreRepo.save(membreActuel);
     }
 /**

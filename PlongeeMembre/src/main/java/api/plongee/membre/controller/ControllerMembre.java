@@ -142,21 +142,15 @@ public class ControllerMembre {
               String adresseMail= jsonObj.getString("adresseMail");
              String login= jsonObj.getString("login");
               String password= jsonObj.getString("password");
-              String dateDebutCertificat= jsonObj.getString("dateDebutCertificat");
-              
-              String aPaye= jsonObj.getString("aPaye");
               Integer niveauExpertise= Integer.parseInt(jsonObj.getString("niveauExpertise"));
               String numLicence= jsonObj.getString("numLicence");
               String pays= jsonObj.getString("pays");
              String ville= jsonObj.getString("ville");
-             
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-        Date dc = sdf.parse(dateDebutCertificat);
-        Date dp = sdf.parse(aPaye);   
+              
         Adresse a = new Adresse(pays, ville);
        
        
-        Membre m = new Membre(nom, prenom, adresseMail, login, password, dc, dp, niveauExpertise, numLicence, a);
+        Membre m = new Membre(nom, prenom, adresseMail, login, password,  niveauExpertise, numLicence, a);
         return this.gestionMembre.updateMembre(id, m);
         
     }
