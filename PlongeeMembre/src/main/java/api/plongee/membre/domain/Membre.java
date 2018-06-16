@@ -55,6 +55,18 @@ public class Membre implements Serializable {
         this.adresse = adresse;
     }
 
+    public Membre(String nom, String prenom, String adresseMail, String login, String password, Integer niveauExpertise, String numLicence, Adresse a) {
+    
+            this.nom = nom;
+        this.prenom = prenom;
+        this.adresseMail = adresseMail;
+        this.login = login;
+        this.password = password;
+        this.niveauExpertise = niveauExpertise;
+        this.numLicence = numLicence;
+        this.adresse = adresse;
+    }
+
 
     public Integer getIdMembre() {
         return idMembre;
