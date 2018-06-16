@@ -122,6 +122,7 @@ public class GestionMembreImpl  implements GestionMembre{
         membreActuel.setAdresseMail(m.getAdresseMail());
         membreActuel.setLogin(m.getLogin());
         membreActuel.setNom(m.getNom());
+        membreActuel.setPrenom(m.getPrenom());
         membreActuel.setNumLicence(m.getNumLicence());
         membreActuel.setPassword(m.getPassword());
         membreActuel.setPrenom(m.getPrenom());
