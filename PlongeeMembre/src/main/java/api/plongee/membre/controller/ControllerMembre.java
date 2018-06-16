@@ -149,29 +149,12 @@ public class ControllerMembre {
               String numLicence= jsonObj.getString("numLicence");
               String pays= jsonObj.getString("pays");
              String ville= jsonObj.getString("ville");
-             String type= jsonObj.getString("type");
              
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         Date dc = sdf.parse(dateDebutCertificat);
         Date dp = sdf.parse(aPaye);   
         Adresse a = new Adresse(pays, ville);
-        TypeMembre t = null; 
-        switch (type) {
-            case "Membre":
-                t = TypeMembre.Membre;
-                break;
-            case "President" :
-                t = TypeMembre.President;
-                break;
-            case "Secretaire" :
-                t = TypeMembre.Secretaire;
-                break;
-            case "Enseignant" :
-                t = TypeMembre.Enseignant;
-                break;
-             default :
-                throw new TypeMembreInvalideException();
-        }
+       
        
         Membre m = new Membre(nom, prenom, adresseMail, login, password, dc, dp, niveauExpertise, numLicence, a);
         return this.gestionMembre.updateMembre(id, m);
