@@ -125,7 +125,6 @@ public class GestionMembreImpl  implements GestionMembre{
         membreActuel.setNumLicence(m.getNumLicence());
         membreActuel.setPassword(m.getPassword());
         membreActuel.setPrenom(m.getPrenom());
-        membreActuel.setaPaye(m.getAPaye()); 
         return this.membreRepo.save(membreActuel);
     }
 /**
