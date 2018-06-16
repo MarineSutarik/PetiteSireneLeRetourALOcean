@@ -29,8 +29,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -191,6 +196,7 @@ public class GestionCoursImpl implements GestionCours{
         }else{
         Participant p = participantRepo.findOne(idMembre);
         c = coursRepo.findAllByParticipants(participantRepo.findOne(idMembre));
+      
         if(c==null)throw new CoursIntrouvableException();
         }
         return c;

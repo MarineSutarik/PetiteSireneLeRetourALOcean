@@ -48,7 +48,7 @@ public class ControllerCours {
     {
     nomCours:"vidage de masque",
     niveauCible :"1",
-    dateDebut : "26/05/18",
+    dateDebut : "26/05/18 17:50",
     duree : "40",
     enseignant:"4",
     piscine:"..."
@@ -68,7 +68,7 @@ public class ControllerCours {
              Integer duree= Integer.parseInt(jsonObj.getString("duree"));
               Integer enseignant= Integer.parseInt(jsonObj.getString("enseignant"));
                String piscine= jsonObj.getString("piscine");
-         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
         Date d = sdf.parse(dateDebut);
         return gestionCours.creerCours(nomCours, niveauCible, d, duree, enseignant,piscine);
     }

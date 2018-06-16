@@ -5,11 +5,11 @@
  */
 package api.plongee.cours.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -23,7 +23,8 @@ public class  Creneau implements Serializable {
     @Id
     private String idCreneau;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+    
+    @JsonFormat(pattern="dd/MM/YYYY HH:mm")
     private Date dateDebut;
    
     
