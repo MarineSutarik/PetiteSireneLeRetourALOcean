@@ -107,16 +107,18 @@ public class GestionMembreImpl  implements GestionMembre{
  * modifie un membre
  * @param idMembre
  * @param m
+     * @param pays
+     * @param ville
  * @return un membre
  * @throws MembreIntrouvableException 
  */
     @Override
-    public Membre updateMembre(Integer idMembre, Membre m)  throws MembreIntrouvableException {
+    public Membre updateMembre(Integer idMembre, Membre m, String pays, String ville)  throws MembreIntrouvableException {
         System.out.println("id = "+idMembre);
         Membre membreActuel = this.membreRepo.getOne(idMembre);
         if (membreActuel==null) throw new MembreIntrouvableException();
-        membreActuel.getAdresse().setPays(m.getAdresse().getPays());
-        membreActuel.getAdresse().setPays(m.getAdresse().getVille());
+        membreActuel.getAdresse().setPays(pays);
+        membreActuel.getAdresse().setVille(ville);
         membreActuel.setAdresseMail(m.getAdresseMail());
         membreActuel.setLogin(m.getLogin());
         membreActuel.setNom(m.getNom());

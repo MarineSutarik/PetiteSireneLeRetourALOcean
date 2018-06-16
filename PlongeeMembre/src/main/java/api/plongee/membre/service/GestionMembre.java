@@ -20,7 +20,7 @@ public interface GestionMembre {
   
     public Membre creerMembre ( String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Date aPaye,  Integer niveauExpertise, String numLicence, String pays, String ville, TypeMembre type);
    
-    public Membre updateMembre(Integer idMembre, Membre m ) throws MembreIntrouvableException;
+    public Membre updateMembre(Integer idMembre, Membre m , String pays, String ville) throws MembreIntrouvableException;
     
     public void deleteMembre(Integer idMembre) throws MembreIntrouvableException;
     

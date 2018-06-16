@@ -152,7 +152,7 @@ public class ControllerMembre {
        
        
         Membre m = new Membre(nom, prenom, adresseMail, login, password, niveauExpertise, numLicence, a);
-        return this.gestionMembre.updateMembre(id, m);
+        return this.gestionMembre.updateMembre(id, m,pays,ville);
         
     }
     /**
