@@ -115,12 +115,10 @@ public class GestionMembreImpl  implements GestionMembre{
         System.out.println("id = "+idMembre);
         Membre membreActuel = this.membreRepo.getOne(idMembre);
         if (membreActuel==null) throw new MembreIntrouvableException();
-        
-        membreActuel.setAdresse(m.getAdresse());
+        membreActuel.getAdresse().setPays(m.getAdresse().getPays());
+        membreActuel.getAdresse().setPays(m.getAdresse().getVille());
         membreActuel.setAdresseMail(m.getAdresseMail());
-        membreActuel.setDateDebutCertificat(m.getDateDebutCertificat());
         membreActuel.setLogin(m.getLogin());
-        membreActuel.setNiveauExpertise(m.getNiveauExpertise());
         membreActuel.setNom(m.getNom());
         membreActuel.setNumLicence(m.getNumLicence());
         membreActuel.setPassword(m.getPassword());
