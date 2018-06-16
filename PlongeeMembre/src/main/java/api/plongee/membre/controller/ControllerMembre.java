@@ -193,7 +193,7 @@ public class ControllerMembre {
      * @return
      * @throws MembreIntrouvableException
      */
-    @PutMapping("/connexion")
+    @GetMapping("/connexion")
     @ResponseBody
     public Membre connexion( @RequestBody String param) throws MembreIntrouvableException{
          
