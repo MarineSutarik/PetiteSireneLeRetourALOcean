@@ -118,4 +118,14 @@ public class ControllerCours {
     public List<Piscine> afficherPiscines()  {
          return gestionCours.afficherPiscines();
     }
+    
+        /**
+     * Permet d'afficher les différentes piscines de Toulouse sauvegardées en BD
+     * @return une liste de piscine
+     */
+     @GetMapping("/afficherCours")
+    @ResponseBody
+    public List<Cours> afficherCours()  {
+         return gestionCours.afficherTousLesCours();
+    }
 }

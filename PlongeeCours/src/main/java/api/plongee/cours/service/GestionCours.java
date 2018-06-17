@@ -32,4 +32,6 @@ public interface GestionCours {
     public List<Piscine> afficherPiscines();
     
     public long nombreDeCoursPositionnes();
+    
+      public List<Cours> afficherTousLesCours();
 }

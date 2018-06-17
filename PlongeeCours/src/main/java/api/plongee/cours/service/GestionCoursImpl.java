@@ -285,5 +285,10 @@ public class GestionCoursImpl implements GestionCours{
     public long nombreDeCoursPositionnes() {
         return coursRepo.count();
     }
+
+    @Override
+    public List<Cours> afficherTousLesCours() {
+        return coursRepo.findAll();
+    }
     
 }
