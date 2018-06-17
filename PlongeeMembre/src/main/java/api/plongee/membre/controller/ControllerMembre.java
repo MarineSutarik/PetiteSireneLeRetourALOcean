@@ -240,8 +240,14 @@ public class ControllerMembre {
      * return le type d'un membre à partir de son id ( si c'est un enseignant un président ou un simple membre
      * @param id
      * @return
-     * @throws api.plongee.membre.exception.PaiementIntrouvableException 
+     * @throws MembreIntrouvableException 
      */
+    @GetMapping("/type/{id}")
+    @ResponseBody
+    public String getType(@PathVariable("id") Integer id) throws MembreIntrouvableException {         
+        return this.gestionMembre.getType(id);
+    }
+    
     @PutMapping("/valider/{id}")
     @ResponseBody
     public Paiement valider(@PathVariable("id") Integer id) throws  PaiementIntrouvableException {         
@@ -252,5 +258,4 @@ public class ControllerMembre {
     public List<Paiement> getListePaiement()  {         
         return this.gestionMembre.afficherPaiementNonValides();
     }
-
 }
