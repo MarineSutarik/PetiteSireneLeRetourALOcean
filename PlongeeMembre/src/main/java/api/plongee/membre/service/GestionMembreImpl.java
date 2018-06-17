@@ -14,6 +14,7 @@ import api.plongee.membre.enumeration.TypeMembre;
 import static api.plongee.membre.enumeration.TypeMembre.*;
 import api.plongee.membre.domain.Paiement;
 import api.plongee.membre.exception.MembreIntrouvableException;
+import api.plongee.membre.exception.PaiementIntrouvableException;
 import api.plongee.membre.repo.AdresseRepo;
 import api.plongee.membre.repo.EnseignantRepo;
 import api.plongee.membre.repo.MembreRepo;
@@ -60,7 +61,7 @@ public class GestionMembreImpl  implements GestionMembre{
   * @param login
   * @param password
   * @param dateDebutCertificat
-  * @param aPaye
+     * @param aPaye
   * @param niveauExpertise
   * @param numLicence
   * @param pays
@@ -71,13 +72,12 @@ public class GestionMembreImpl  implements GestionMembre{
   */
     @Override
  
-    public Membre creerMembre(String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Date aPaye, Integer niveauExpertise, String numLicence, String pays, String ville, TypeMembre type) {
+    public Membre creerMembre(String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Paiement aPaye, Integer niveauExpertise, String numLicence, String pays, String ville, TypeMembre type) {
       Adresse a = new Adresse( pays, ville);
         a = adresse.save(a);
         Calendar cal = Calendar.getInstance(); 
         cal.set(1900, 1, 1, 1, 1);
-        if (aPaye == null ) aPaye = cal.getTime();
-        if (dateDebutCertificat == null ) aPaye = cal.getTime();
+        if (dateDebutCertificat == null ) dateDebutCertificat = cal.getTime();
          Membre m = null;
         switch (type){
             case Membre :
@@ -168,8 +168,8 @@ public class GestionMembreImpl  implements GestionMembre{
         if (m==null) throw new MembreIntrouvableException();
         Paiement p = new Paiement(IBAN,somme, m.getIdMembre());
         paiement.save(p);
-       
-        m.setaPaye(Calendar.getInstance().getTime());
+       m.setDernierPaiement(p);
+        //m.(Calendar.getInstance().getTime());
         membreRepo.save(m);
     }
 /**
@@ -188,10 +188,12 @@ public class GestionMembreImpl  implements GestionMembre{
     @Override
     public Map<String, String> consulterStatistiques() {
         HashMap<String,String> h = new HashMap<String,String>();
-    
+    Integer nbReglee=0;
+    Integer nbMembre =0 ;
    //nombre de membres
     String k = "Nombre de membre(s)";
-    String v = membreRepo.count()+" membre(s)";
+    nbMembre = Integer.parseInt( membreRepo.count()+"");
+    String v = nbMembre+" membre(s)";
     h.put(k, v);
     
     //nombre d'enseignants
@@ -206,17 +208,21 @@ public class GestionMembreImpl  implements GestionMembre{
              " cour(s)";
     h.put(k, v);   
     
-    //nombre de cotisations prévues
-     k = "Nombre  de cotisations prévues";
-    Calendar cal =  Calendar.getInstance();
-    cal.set( Calendar.getInstance().get(Calendar.YEAR), 01, 01, 0, 1);
-     v =membreRepo.countByAPayeLessThan(cal.getTime())+" cotisation(s)";
-    h.put(k, v);
+
     
     
     //nombre de cotisations réglées 
+    Calendar cal =  Calendar.getInstance();
      k = "Nombre de cotisations réglées";
-     v =membreRepo.countByAPayeGreaterThan(cal.getTime())+" cotisation(s)";
+     nbReglee = paiement.countByDateGreaterThan(cal.getTime());
+     v =nbReglee+" cotisation(s)";
+    h.put(k, v);
+    
+        //nombre de cotisations prévues
+     k = "Nombre  de cotisations prévues";
+    
+    cal.set( Calendar.getInstance().get(Calendar.YEAR), 01, 01, 0, 1);
+     v =(nbMembre-nbReglee)+" cotisation(s)";
     h.put(k, v);
     
     return h;
@@ -258,6 +264,20 @@ public class GestionMembreImpl  implements GestionMembre{
         Membre m =  this.membreRepo.findOne(idMembre);
         if(m==null) throw new MembreIntrouvableException();
       return m.getClass().getSimpleName().split("_")[0];
+    }
+
+    @Override
+    public Paiement validerPaiement(Integer idPaiement) throws PaiementIntrouvableException {
+    Paiement r = paiement.findOne(idPaiement);
+    if(r==null) throw new PaiementIntrouvableException();
+    r.setValide(true);
+    paiement.save(r);
+    return r;
+    }
+
+    @Override
+    public List<Paiement> afficherPaiementNonValides() {
+        return paiement.findAllByValide(false);
     }
 
   

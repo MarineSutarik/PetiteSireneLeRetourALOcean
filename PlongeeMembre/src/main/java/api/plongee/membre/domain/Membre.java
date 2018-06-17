@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -34,14 +35,15 @@ public class Membre implements Serializable {
     private String password;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebutCertificat;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date aPaye;
+    
+    @OneToOne
+    private Paiement dernierpaiement;
     private Integer niveauExpertise;
     private String numLicence;
     private Adresse adresse ;
     protected Membre(){}
     
-    public Membre( String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Date aPaye,  Integer niveauExpertise, String numLicence, Adresse adresse) {
+    public Membre( String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Paiement dernierPaiement,  Integer niveauExpertise, String numLicence, Adresse adresse) {
         
         this.nom = nom;
         this.prenom = prenom;
@@ -49,7 +51,7 @@ public class Membre implements Serializable {
         this.login = login;
         this.password = password;
         this.dateDebutCertificat = dateDebutCertificat;
-        this.aPaye = aPaye;
+        this.dernierpaiement = dernierPaiement;
         this.niveauExpertise = niveauExpertise;
         this.numLicence = numLicence;
         this.adresse = adresse;
@@ -67,6 +69,14 @@ public class Membre implements Serializable {
         this.adresse = adresse;
     }
 
+    public Paiement getDernierPaiement() {
+        return dernierpaiement;
+    }
+
+    public void setDernierPaiement(Paiement dernierPaiement) {
+        this.dernierpaiement = dernierPaiement;
+    }
+
 
     public Integer getIdMembre() {
         return idMembre;
@@ -80,9 +90,7 @@ public class Membre implements Serializable {
         return nom;
     }
     
-     public Date getAPaye() {
-        return this.aPaye;
-    }
+  
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -128,13 +136,7 @@ public class Membre implements Serializable {
         this.dateDebutCertificat = dateDebutCertificat;
     }
 
-    public Date isaPaye() {
-        return aPaye;
-    }
-
-    public void setaPaye(Date aPaye) {
-        this.aPaye = aPaye;
-    }
+    
 
     public Integer getNiveauExpertise() {
         return niveauExpertise;

@@ -31,9 +31,9 @@ public class DataFiller implements CommandLineRunner{
      @Transactional
     public void run(String... strings) throws Exception {
         Date d = new Date();
-         Membre ma = gestionMembre.creerMembre("RIGAL", "Anais", "thuglife@gourgandine.fr", "thug", "life", d,d, 1, "564654AD54", "France", "Sulpice", TypeMembre.President);
-         Membre me =  gestionMembre.creerMembre("TOURNIE", "Vivien", "viv@gourgandine.fr", "viv", "life", d,d, 1, "564654uAD54", "France", "Toulouse", TypeMembre.Membre);
-        Membre m =  gestionMembre.creerMembre("SUTARIK", "Marine", "marine@gourgandine.fr", "mar", "life", d,d, 1, "564u654AD54", "Slovaquie", "Nowhere", TypeMembre.Secretaire);
+         Membre ma = gestionMembre.creerMembre("RIGAL", "Anais", "thuglife@gourgandine.fr", "thug", "life", d,null, 2, "564654AD54", "France", "Sulpice", TypeMembre.President);
+         Membre me =  gestionMembre.creerMembre("TOURNIE", "Vivien", "viv@gourgandine.fr", "viv", "life", d, null,0, "564654uAD54", "France", "Toulouse", TypeMembre.Membre);
+        Membre m =  gestionMembre.creerMembre("SUTARIK", "Marine", "marine@gourgandine.fr", "mar", "life", d,null, 1, "564u654AD54", "Slovaquie", "Nowhere", TypeMembre.Secretaire);
         gestionMembre.payerCotisation("pihjp", 30, m.getIdMembre());
         gestionMembre.donnerCertificat(m.getIdMembre());
         m = gestionMembre.creerMembre("Z", "Gilles", "z@gil.fr", "gil", "concepts", null,null, 1, "564654uAD54", "France", "Perché", TypeMembre.Enseignant);

@@ -19,7 +19,7 @@ public class Enseignant extends Membre{
     public Enseignant(){
         super();
     }
-     public Enseignant( String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Date aPaye,  Integer niveauExpertise, String numLicence, Adresse adresse) {
+     public Enseignant( String nom, String prenom, String adresseMail, String login, String password, Date dateDebutCertificat, Paiement aPaye,  Integer niveauExpertise, String numLicence, Adresse adresse) {
         super(  nom,  prenom,  adresseMail,  login,  password,  dateDebutCertificat,  aPaye,   niveauExpertise,  numLicence,  adresse); 
     } 
 }

@@ -17,7 +17,5 @@ public interface MembreRepo extends JpaRepository<Membre, Integer>{
 
     public Membre findMembreByLogin(String login);
     
-    public Integer countByAPayeGreaterThan(Date d);
     
-    public Integer countByAPayeLessThan(Date d);
 }

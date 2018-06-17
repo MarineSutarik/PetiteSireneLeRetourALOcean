@@ -6,12 +6,14 @@
 package api.plongee.membre.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -26,7 +28,9 @@ public class Paiement implements Serializable {
     private String refBancaire;
     @Column (nullable = false)
     private float montant;
-    
+    private boolean valide;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date date;
     private Integer idMembre;
 
     public Paiement() {
@@ -37,6 +41,24 @@ public class Paiement implements Serializable {
         this.refBancaire = refBancaire;
         this.montant = montant;
         this.idMembre = idMembre;
+        this.date = new Date();
+        this.valide=false;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+    public boolean isValide() {
+        return valide;
+    }
+
+    public void setValide(boolean valide) {
+        this.valide = valide;
     }
 
     public Integer getIdPaiement() {

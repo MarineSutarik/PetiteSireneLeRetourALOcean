@@ -6,6 +6,8 @@
 package api.plongee.membre.repo;
 
 import api.plongee.membre.domain.Paiement;
+import java.util.Date;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,5 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author marin
  */
 public interface PaiementRepo  extends JpaRepository <Paiement, Integer>{
-    
+    public List<Paiement> findAllByValide(boolean t);
+    public Integer countByDateGreaterThan(Date d);
 }

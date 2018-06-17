@@ -7,8 +7,10 @@ package api.plongee.membre.controller;
 
 import api.plongee.membre.domain.Adresse;
 import api.plongee.membre.domain.Membre;
+import api.plongee.membre.domain.Paiement;
 import api.plongee.membre.enumeration.TypeMembre;
 import api.plongee.membre.exception.MembreIntrouvableException;
+import api.plongee.membre.exception.PaiementIntrouvableException;
 import api.plongee.membre.exception.TypeMembreInvalideException;
 import api.plongee.membre.service.GestionMembre;
 import java.text.ParseException;
@@ -76,7 +78,6 @@ public class ControllerMembre {
              String login= jsonObj.getString("login");
               String password= jsonObj.getString("password");
               String dateDebutCertificat= jsonObj.getString("dateDebutCertificat");
-              String aPaye= jsonObj.getString("aPaye");
               Integer niveauExpertise= Integer.parseInt(jsonObj.getString("niveauExpertise"));
               String numLicence= jsonObj.getString("numLicence");
               String pays= jsonObj.getString("pays");
@@ -101,8 +102,7 @@ public class ControllerMembre {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
         Date d = sdf.parse(dateDebutCertificat);
-        Date daPaye = sdf.parse(aPaye);
-        return gestionMembre.creerMembre( nom, prenom, adresseMail, login, password, d,daPaye, niveauExpertise, numLicence, pays, ville, t);
+        return gestionMembre.creerMembre( nom, prenom, adresseMail, login, password, d,null, niveauExpertise, numLicence, pays, ville, t);
     }
     /*
     Modifie un membre et l'enregistre
@@ -240,13 +240,17 @@ public class ControllerMembre {
      * return le type d'un membre à partir de son id ( si c'est un enseignant un président ou un simple membre
      * @param id
      * @return
-     * @throws MembreIntrouvableException 
+     * @throws api.plongee.membre.exception.PaiementIntrouvableException 
      */
-    @GetMapping("/type/{id}")
+    @PutMapping("/valider/{id}")
     @ResponseBody
-    public String getType(@PathVariable("id") Integer id) throws MembreIntrouvableException {         
-        return this.gestionMembre.getType(id);
+    public Paiement valider(@PathVariable("id") Integer id) throws  PaiementIntrouvableException {         
+        return this.gestionMembre.validerPaiement(id);
     }
-    
+    @GetMapping("/listePaiement")
+    @ResponseBody
+    public List<Paiement> getListePaiement()  {         
+        return this.gestionMembre.afficherPaiementNonValides();
+    }
 
 }
