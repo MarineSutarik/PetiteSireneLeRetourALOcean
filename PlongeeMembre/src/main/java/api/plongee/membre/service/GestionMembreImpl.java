@@ -265,7 +265,12 @@ public class GestionMembreImpl  implements GestionMembre{
         if(m==null) throw new MembreIntrouvableException();
       return m.getClass().getSimpleName().split("_")[0];
     }
-
+    /**
+     * Permet de valider un paiement à partir de son id
+     * @param idPaiement
+     * @return un paiement
+     * @throws PaiementIntrouvableException 
+     */
     @Override
     public Paiement validerPaiement(Integer idPaiement) throws PaiementIntrouvableException {
     Paiement r = paiement.findOne(idPaiement);
@@ -274,7 +279,10 @@ public class GestionMembreImpl  implements GestionMembre{
     paiement.save(r);
     return r;
     }
-
+/**
+ * Permet d'afficher la liste des paiements en attente de validation
+ * @return une liste de paiement
+ */
     @Override
     public List<Paiement> afficherPaiementNonValides() {
         return paiement.findAllByValide(false);

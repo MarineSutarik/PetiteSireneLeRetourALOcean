@@ -278,14 +278,17 @@ public class GestionCoursImpl implements GestionCours{
         return piscineRepo.findAll();
     }
 /**
- * Envois tous les cours qui ont été positionnés
+ * Envois le nombre de cours qui ont été positionnés
  * @return un nombre de cours positionnés
  */
     @Override
     public long nombreDeCoursPositionnes() {
         return coursRepo.count();
     }
-
+/**
+ * Renvois une liste de tous les cours
+ * @return liste de tous les cours
+ */
     @Override
     public List<Cours> afficherTousLesCours() {
         return coursRepo.findAll();

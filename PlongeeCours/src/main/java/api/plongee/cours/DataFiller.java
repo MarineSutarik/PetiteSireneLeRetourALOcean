@@ -29,7 +29,7 @@ public class DataFiller implements CommandLineRunner{
      @Override
      @Transactional
     public void run(String... strings) throws Exception {
-
+        //lance la récupération des piscines dans Toulouse
        List<Piscine> l = gestionCours.recupererPiscines();
         Cours c = gestionCours.creerCours("Vidage de masque", 1, Calendar.getInstance().getTime(), 40, 4,l.get(1).getId());
 

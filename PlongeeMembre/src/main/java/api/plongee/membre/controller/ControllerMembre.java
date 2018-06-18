@@ -247,12 +247,24 @@ public class ControllerMembre {
     public String getType(@PathVariable("id") Integer id) throws MembreIntrouvableException {         
         return this.gestionMembre.getType(id);
     }
-    
+    /**
+     * Permet de valider un paiement saisi
+     * @param id
+     * @return
+     * @throws PaiementIntrouvableException 
+     */
     @PutMapping("/valider/{id}")
     @ResponseBody
     public Paiement valider(@PathVariable("id") Integer id) throws  PaiementIntrouvableException {         
         return this.gestionMembre.validerPaiement(id);
     }
+    
+     /**
+     * Permet d'afficher la liste de tous les paiements pas encore validés
+     * @param id
+     * @return
+     * @throws PaiementIntrouvableException 
+     */
     @GetMapping("/listePaiement")
     @ResponseBody
     public List<Paiement> getListePaiement()  {         
